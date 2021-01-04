@@ -1,50 +1,36 @@
-<<<<<<< HEAD
-# Getting Started with Create React App
+# React-grid-layout Playground
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+For official documentation of the library, please visit [the official GitHub repository](https://github.com/STRML/react-grid-layout).
 
-## Available Scripts
+## Motviation
 
-In the project directory, you can run:
+A playground for design team to understand the potential configurations of react-grid-layout library.
 
-### `yarn start`
+## Getting Started (Running the App) 
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+Navigate to the project root directory (where the `public` and `src` directories reside), type the command `npm start` for the app to run in development mode.
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+Once the app is up and running, open [http://localhost:3000](http://localhost:3000) to view it in the browser.
 
-### `yarn test`
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+# Configurations
 
-### `yarn build`
+Navigate to `src/components/widgetview/mock-initial-values.tsx`, where you'll see three objects defined: 
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+1. `mockBreakpoints`
+2. `mockCols`
+3. `mockLayouts`
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+## What are breakpoints?
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+Out of the 3, `mockBreakpoints` is the most important, and the one that affects the other configurations. 
 
-### `yarn eject`
+**Breakpoints** is a key/value paired dictionary. The key is a string that represents a sized breakpoint (e.g. 'lg' for large), and its corresponding screen width (e.g. 1200 pixels). As the screen size changes, if the screen size in pixel drops below 1200, then the breakpoint is no longer size 'lg'
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+## Breakpoints affect other Properties
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+The other 2 mock values mentioned here, `mockCols`, and `mockLayouts` are also dictionary values, and their keys have to exist within the breakpoints dictionary. For example, if a `mockCols` were to have a key of 'extraBig' defined in its body, but the key 'extraBig' does NOT exist in `mockBreakpoints`, there would be an error. 
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+As the breakpoint marker changes, e.g. from 'lg' to 'md', the column count also changes from whatever value is defined for the 'lg' key in `mockCols` to the 'md' key in `mockCols`. 
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-=======
-# widget-dashboard-playaround
->>>>>>> 8ba24031ae2d4a2e67586bdeb1dfc180c4844b63
+Asides from column count and layout, breakpoint can also affect `margin` (margin between items in pixels), and `containerPadding` (padding inside the containeri n px).  
