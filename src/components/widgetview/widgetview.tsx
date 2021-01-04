@@ -1,6 +1,8 @@
 import React, { FC, useState, useEffect } from 'react';
 // types def
 import { Breakpoints, Columns, Layout, Layouts} from './types';
+// import mock values
+import { mockBreakpoints, mockCols, mockLayouts } from './mock-initial-values';
 // react grid layout
 import { WidthProvider, Responsive } from 'react-grid-layout';
 // lodash for common JS functions
@@ -28,26 +30,6 @@ const AddButton: FC<any> = (props) => {
 			/>
 		</div>
 	)
-}
-
-const mockBreakpoints = {
-	lg: 1200,
-	md: 996, 
-	sm: 768,
-	// xs: 480,
-	// xxs: 0
-}
-
-const mockCols: Columns = {
-	lg: 5,
-	md: 4,
-	sm: 3
-}
-
-const mockLayouts: Layouts = {
-	lg: [],
-	md: [],
-	sm: []
 }
 
 // Functional component for dashboard carrying a ResponsiveGridLayout
