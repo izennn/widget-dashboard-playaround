@@ -33,4 +33,4 @@ The other 2 mock values mentioned here, `mockCols`, and `mockLayouts` are also d
 
 As the breakpoint marker changes, e.g. from 'lg' to 'md', the column count also changes from whatever value is defined for the 'lg' key in `mockCols` to the 'md' key in `mockCols`. 
 
-Asides from column count and layout, breakpoint can also affect `margin` (margin between items in pixels), and `containerPadding` (padding inside the containeri n px).  
+Asides from column count and layout, breakpoint can also affect `rowHeight`, `margin` (margin between items in pixels), and `containerPadding` (padding inside the containeri n px).  
