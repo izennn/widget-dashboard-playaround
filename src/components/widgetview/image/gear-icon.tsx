@@ -1,11 +1,7 @@
 import React, { FC } from 'react';
+import IconInterface from './icon-type';
 
-interface IGearIcon {
-	style?: React.CSSProperties;
-	onClick?: (event: React.MouseEvent<SVGSVGElement, MouseEvent>) => void;
-}
-
-const GearIcon: FC<IGearIcon> = (props) => {
+const GearIcon: FC<IconInterface> = (props) => {
 	const { style, onClick } = props;
 	const color = '#9fabb7';
 
