@@ -15,6 +15,7 @@ export interface Layout {
 	w: number;
 	h: number;
 	add?: boolean;
+	static?: boolean;
 }
 
 export interface Layouts {
