@@ -18,6 +18,10 @@ const StyledWidget = styled.div`
 		opacity: 1;
 	}
 	& .image-container {
+		visibility: hidden;
+	}
+	&:hover .image-container {
+		visibility: visible;
 		overflow: hidden;
 		background: transparent;
 		transition: background 0.1s ease-in-out;
@@ -26,10 +30,6 @@ const StyledWidget = styled.div`
 		img, 
 		svg {
 		}
-	}
-	& .resize-handle-button {
-		border: 1px solid blue;
-		position: absolute;
 	}
 `
 export default StyledWidget;
