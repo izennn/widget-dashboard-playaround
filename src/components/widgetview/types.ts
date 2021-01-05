@@ -1,3 +1,5 @@
+export type ResizeHandle = 's' | 'w' | 'e' | 'n' | 'sw' | 'nw' | 'se' | 'ne';
+
 export interface Breakpoints {
 	[size: string]: number;
 }

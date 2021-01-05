@@ -1,6 +1,6 @@
 import React, { FC, useState, useEffect } from 'react';
 // types def
-import { Breakpoints, Columns, Layout, Layouts} from './types';
+import { Breakpoints, Columns, Layout, Layouts, ResizeHandle } from './types';
 // import mock values
 import { mockBreakpoints, mockCols, mockLayouts } from './mock-initial-values';
 // react grid layout
@@ -9,27 +9,91 @@ import { WidthProvider, Responsive } from 'react-grid-layout';
 import _ from 'lodash';
 // styling
 import StyledWidget from './components/styled-widget';
-import { Button } from 'semantic-ui-react';
+import { Button, Header } from 'semantic-ui-react';
 // images
 import GearIcon from './image/gear-icon';
+import ResizeHandleIcon from './image/resize-handle';
 
 const ResponsiveReactGridLayout = WidthProvider(Responsive);
 
-// the add item button that will be at the top
-const AddButton: FC<any> = (props) => {
-	const topBarStyle = {
-		display: 'flex',
-		flexDirection: 'row' as 'row',
-	}
-
+const CustomResizeButton = (position: ResizeHandle) => {
 	return (
-		<div style={topBarStyle}>
-			<Button 
-				onClick={() => props.addItem()}
-				content='Add New Box'
-			/>
-		</div>
+		<ResizeHandleIcon 
+			// onClick={}
+			style={{
+				'cursor': 'pointer'
+			}}
+		/>
 	)
+}
+
+interface TopBarInterface {
+	addItem: () => void;
+	windowWidth: number;
+	currBreakpoint: string | undefined;
+	colsCount: number
+}
+
+// Functional Component for top bar of dashboard
+const TopBar = (props: TopBarInterface) => {
+	const { 
+		addItem,
+		windowWidth,
+		currBreakpoint,
+		colsCount
+	} = props;
+
+  const topBarStyle = {
+    height: '5%',
+    maxHeight: '100px',
+    width: '100%',
+    padding: '1em 1.5em 1em 1.5em',
+    background: '#F8F8F8',
+    display: 'flex',
+		flexDirection: 'row' as 'row',
+		justifyContent: 'space-between',
+  }
+
+  const getDate = () => {
+    let d = new Date();
+    let dString = d.toString().split(' ');
+
+    let Day = dString[0];
+    let Month = dString[1];
+    let date = dString[2];
+    let Year = dString[3]
+
+    // date.toString() returns as 'Day, Month Date Year ...'
+    return `${date} ${Month} ${Year}, ${Day}`
+  }
+
+  return (
+    <div style={topBarStyle}>
+			<div style={{display: 'flex'}}>
+				<Header
+					as='h2'
+					textAlign='left'
+					content='Welcome back, Alex'
+					subheader={getDate()}
+				/>
+				<div style={{padding: '1em'}} />
+				<div 
+					className='grid-data-display' 
+					style={{
+						textAlign: 'left'
+					}}
+				>
+					<span><b>Grid Width: </b>{windowWidth} px</span><br />
+					<span><b>Breakpoint: </b>{currBreakpoint}</span><br />
+					<span><b>Columns:    </b>{colsCount}</span>
+				</div>
+			</div>
+			<Button
+				content='Add Box'
+				onClick={() => addItem()}
+			/>
+    </div>
+  )
 }
 
 // Functional component for dashboard carrying a ResponsiveGridLayout
@@ -130,41 +194,26 @@ const WidgetView: FC<any> = () => {
 				flexDirection: 'column' as 'column'
 			}}
 		>
-			<div 
-				className='top-column'
-				style={{
-					display: 'flex',
-					flexDirection: 'row' as 'row',
-					padding: '0.25em 0.5em 0.25em 0.5em'
-				}}
-			>
-				<AddButton 
-					addItem={addItem}
-				/>
-				<div className='spacer' style={{padding: '0.5em'}}></div>
-				<div 
-					className='grid-data-display' 
-					style={{
-						display: 'flex',
-						flexDirection: 'column' as 'column',
-						textAlign: 'left'
-					}}
-				>
-					<p><b>Grid Width: </b>{windowWidth} px</p>
-					<p><b>Breakpoint Key: </b>{currBreakpoint}</p>
-					<p><b>Columns: </b>{colsCount}</p>
-				</div>
-			</div>
+			<TopBar 
+				addItem={addItem}
+				windowWidth={windowWidth}
+				currBreakpoint={currBreakpoint}
+				colsCount={colsCount}
+			/>
 			<ResponsiveReactGridLayout 
-				className='layout'
+				className='responsive-grid-layout'
 				breakpoints={breakpoints}
-				cols={cols}
 				layouts={layouts}
-				verticalCompact={true}
+				cols={cols}
+				rowHeight={windowWidth / colsCount} // row height will be (width / column_count)
 				onLayoutChange={onLayoutChange}
 				onBreakpointChange={onBreakpointChange}
-				rowHeight={windowWidth / colsCount} // row height will be (width / column_count)
-				style={{border: '1px solid red'}}
+				verticalCompact={true}
+				style={{
+					border: '1px solid red',
+					maxHeight: '100%',
+					overflowY: 'auto'
+				}}
 			>
 				{layouts['lg'].map((el) => {
 					return renderItem(el)
