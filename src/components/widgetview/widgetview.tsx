@@ -45,7 +45,7 @@ const TopBar = (props: TopBarInterface) => {
 
   const topBarStyle = {
     height: '5%',
-    maxHeight: '100px',
+    minHeight: '100px',
     width: '100%',
     padding: '1em 1.5em 1em 1.5em',
     background: '#F8F8F8',
@@ -190,6 +190,10 @@ const WidgetView: FC<any> = () => {
 		<div 
 			className='wrapping-div'
 			style={{
+				height: '100%',
+				width: '100%',
+				maxWidth: '100%',
+				maxHeight: '100%',
 				display: 'flex',
 				flexDirection: 'column' as 'column'
 			}}
@@ -212,7 +216,7 @@ const WidgetView: FC<any> = () => {
 				style={{
 					border: '1px solid red',
 					maxHeight: '100%',
-					overflowY: 'auto'
+					overflow: 'auto'
 				}}
 			>
 				{layouts['lg'].map((el) => {
