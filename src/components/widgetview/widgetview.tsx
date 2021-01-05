@@ -122,8 +122,6 @@ const WidgetView: FC<any> = () => {
 		setColsCount(newCols);
 	}
 
-	// console.log("Rendered: ");
-	// console.log(layouts);
 	return (
 		<div 
 			className='wrapping-div'
@@ -165,7 +163,7 @@ const WidgetView: FC<any> = () => {
 				verticalCompact={true}
 				onLayoutChange={onLayoutChange}
 				onBreakpointChange={onBreakpointChange}
-				rowHeight={300} // row height will be (width / column_count)
+				rowHeight={windowWidth / colsCount} // row height will be (width / column_count)
 				style={{border: '1px solid red'}}
 			>
 				{layouts['lg'].map((el) => {
