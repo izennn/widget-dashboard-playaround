@@ -1,10 +1,8 @@
 import React, { FC, useState, useEffect } from 'react';
-// types def
-import { Breakpoints, Columns, Layout, Layouts, ResizeHandle } from './types';
 // import mock values
 import { mockBreakpoints, mockCols, mockLayouts } from './mock-initial-values';
 // react grid layout
-import { WidthProvider, Responsive } from 'react-grid-layout';
+import { WidthProvider, Responsive, Layout, Layouts } from 'react-grid-layout';
 // lodash for common JS functions
 import _ from 'lodash';
 // styling
@@ -13,21 +11,8 @@ import StyledWidgetFC from './components/styled-widget-fc';
 import { Button, Header } from 'semantic-ui-react';
 // images
 import GearIcon from './image/gear-icon';
-import ResizeHandleIcon from './image/resize-handle';
 
 const ResponsiveReactGridLayout = WidthProvider(Responsive);
-
-const CustomResizeButton = (position: ResizeHandle) => {
-	return (
-		<ResizeHandleIcon 
-			// onClick={}
-			className='react-resizable-handle'
-			style={{
-				'cursor': 'pointer'
-			}}
-		/>
-	)
-}
 
 interface TopBarInterface {
 	addItem: () => void;
@@ -100,8 +85,6 @@ const TopBar = (props: TopBarInterface) => {
 
 // Functional component for dashboard carrying a ResponsiveGridLayout
 const WidgetView: FC<any> = () => {
-	const [ breakpoints, setBreakpoints ] = useState<Breakpoints>(mockBreakpoints)
-	const [ cols, setCols ] = useState<Columns>(mockCols)
 	const [ layouts, setLayouts ] = useState<Layouts>(mockLayouts);
 	const [ newCounter, setNewCounter ] = useState(0);
 
@@ -109,14 +92,14 @@ const WidgetView: FC<any> = () => {
 	const [ colsCount, setColsCount ] = useState(0);
 	const [ currBreakpoint, setCurrBreakpoint ] = useState<string | undefined>(undefined);
 
-	// set windowWidth variable value when window resizes
+	// set windowWidth variable value when window resizes (only needed for Alex's playground)
 	useEffect(() => {
 		const handleResize = () => { setWindowWidth(window.innerWidth) }
 		window.addEventListener('resize', handleResize);
 		return () => window.removeEventListener('resize', handleResize)
 	})
 
-	// on mount, determine initial breakpoint size (string) & col count
+	// on mount, determine initial breakpoint size (string) & col count (only needed for Alex's playground)
 	useEffect(() => {
 		// first, determine currBreakpoint from windowSize
 		let newBreakpoint: string;
@@ -160,12 +143,12 @@ const WidgetView: FC<any> = () => {
 
 	// take item from layouts array and render it as HTML element
 	const renderItem = (el: Layout) => {
-		const i = el.add ? '+' : el.i;
+		const i = el.i;
 		const uuid = parseInt(i);
-		console.log(`Item ${uuid}`);
-		console.log(el);
 
 		if (uuid % 2 === 0) {
+			console.log(`Item ${uuid}`);
+			console.log(el);
 			return (
 				<StyledWidget className='react-grid-item' key={i} data-grid={el}>
 					<div className='widget-top-row'>
@@ -185,6 +168,8 @@ const WidgetView: FC<any> = () => {
 				</StyledWidget>
 			)
 		} else {
+			console.log(`Item ${uuid}`);
+			console.log(el);
 			return (
 				<StyledWidgetFC
 					className='react-grid-item'
@@ -230,9 +215,9 @@ const WidgetView: FC<any> = () => {
 				className='responsive-grid-layout'
 				isDraggable={true}
 				isResizable={true}
-				breakpoints={breakpoints}
+				breakpoints={mockBreakpoints}
 				layouts={layouts}
-				cols={cols}
+				cols={mockCols}
 				rowHeight={windowWidth / colsCount} // row height will be (width / column_count)
 				onLayoutChange={onLayoutChange}
 				onBreakpointChange={onBreakpointChange}

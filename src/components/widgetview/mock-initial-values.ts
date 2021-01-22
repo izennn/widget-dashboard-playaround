@@ -1,4 +1,5 @@
-import { Columns, Layouts } from './types';
+import { Columns  } from './types';
+import { Layouts } from 'react-grid-layout';
 
 export const mockBreakpoints = {
 	lg: 1200,
