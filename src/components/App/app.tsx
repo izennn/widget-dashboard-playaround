@@ -1,7 +1,5 @@
 import React, { FC } from 'react';
 import './App.css';
-// semantic ui react
-import { Header } from 'semantic-ui-react';
 // components
 import WidgetView from '../widgetview';
 

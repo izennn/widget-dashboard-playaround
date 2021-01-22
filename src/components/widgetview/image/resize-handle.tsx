@@ -13,7 +13,7 @@ const ResizeHandleIcon: FC<IconInterface> = (props) => {
 	const { 
 		className,
 		style,
-		onClick
+		// onClick
 	} = props;
 
 

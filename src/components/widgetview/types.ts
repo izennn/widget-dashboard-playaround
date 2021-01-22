@@ -8,16 +8,11 @@ export interface Columns {
 	[size: string]: number
 }
 
-export interface Layout {
-	i: string;
-	x: number;
-	y: number;
-	w: number;
-	h: number;
-	add?: boolean;
-	static?: boolean;
-}
+type WidgetTypeOptions = 'figure' | 'chart' | 'table' | undefined;
 
-export interface Layouts {
-	[size: string]: Layout[];
+export interface Widget {
+	title: string;
+	// location: 
+	// widgetDataType: 
+	widgetType: WidgetTypeOptions;
 }

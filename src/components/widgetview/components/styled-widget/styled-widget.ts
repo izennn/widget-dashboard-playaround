@@ -19,11 +19,14 @@ const StyledWidget = styled.div`
 	}
 	& .image-container {
 		visibility: hidden;
+		opacity: 0.2;
+		transition: 0.2s;
 	}
 	&:hover .image-container {
 		visibility: visible;
 		overflow: hidden;
 		background: transparent;
+		opacity: 1.0;
 		transition: background 0.1s ease-in-out;
 	}
 	& .image-container {

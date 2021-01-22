@@ -9,6 +9,7 @@ import { WidthProvider, Responsive } from 'react-grid-layout';
 import _ from 'lodash';
 // styling
 import StyledWidget from './components/styled-widget';
+import StyledWidgetFC from './components/styled-widget-fc';
 import { Button, Header } from 'semantic-ui-react';
 // images
 import GearIcon from './image/gear-icon';
@@ -20,6 +21,7 @@ const CustomResizeButton = (position: ResizeHandle) => {
 	return (
 		<ResizeHandleIcon 
 			// onClick={}
+			className='react-resizable-handle'
 			style={{
 				'cursor': 'pointer'
 			}}
@@ -131,13 +133,15 @@ const WidgetView: FC<any> = () => {
 	const addItem = () => {
 		// new item must have unique key
 		let newItem = {
-			i: `n${newCounter}`,
+			i: `${newCounter}`,
 			x: (layouts['lg'].length * 1),
 			y: Infinity,
 			w: 1,
 			h: 1,
 			minW: 1,
-			minH: 1
+			minH: 1,
+			isDraggable: true,
+			isResizable: true
 		}
 		layouts['lg'].push(newItem)
 		setLayouts(layouts); 
@@ -157,24 +161,42 @@ const WidgetView: FC<any> = () => {
 	// take item from layouts array and render it as HTML element
 	const renderItem = (el: Layout) => {
 		const i = el.add ? '+' : el.i;
-		return (
-			<StyledWidget key={i} data-grid={el}>
-				<div className='widget-top-row'>
-					<div className='title-container'>
-						Header {i}
+		const uuid = parseInt(i);
+		console.log(`Item ${uuid}`);
+		console.log(el);
+
+		if (uuid % 2 === 0) {
+			return (
+				<StyledWidget className='react-grid-item' key={i} data-grid={el}>
+					<div className='widget-top-row'>
+						<div className='title-container'>
+							Header {i}
+						</div>
+						<div 
+							className='image-container'
+							style={{
+								cursor: 'pointer' as 'pointer'
+							}}
+							onClick={() => removeItem(i)}
+						>
+							<GearIcon />
+						</div>	
 					</div>
-					<div 
-						className='image-container'
-						style={{
-							cursor: 'pointer' as 'pointer'
-						}}
-						onClick={() => removeItem(i)}
-					>
-						<GearIcon />
-					</div>	
-				</div>
-			</StyledWidget>
-		)
+				</StyledWidget>
+			)
+		} else {
+			return (
+				<StyledWidgetFC
+					className='react-grid-item'
+					key={i}
+					item={el}
+					removeItem={removeItem}
+					style={{
+						border: '1px dotted black'
+					}}
+				/>
+			)
+		}
 	}
 
 	const onLayoutChange = (currentLayout: Layout[], allLayouts: Layouts) => {
@@ -206,6 +228,8 @@ const WidgetView: FC<any> = () => {
 			/>
 			<ResponsiveReactGridLayout 
 				className='responsive-grid-layout'
+				isDraggable={true}
+				isResizable={true}
 				breakpoints={breakpoints}
 				layouts={layouts}
 				cols={cols}
