@@ -112,24 +112,21 @@ const WidgetView: FC<any> = () => {
 		setColsCount(mockCols[newBreakpoint]);
 	}, [])
 
-	// on triggered, will add a new box to layouts array
 	const addItem = () => {
-		// new item must have unique key
-		let newItem = {
-			i: `${newCounter}`,
-			x: (layouts['lg'].length * 1),
-			y: Infinity,
-			w: 1,
-			h: 1,
-			minW: 1,
-			minH: 1,
-			isDraggable: true,
-			isResizable: true
-		}
-		layouts['lg'].push(newItem)
-		setLayouts(layouts); 
-		setNewCounter(newCounter + 1);
-	}
+    // new item must have unique key
+    let newItem = {
+      i: `${newCounter}`,
+      x: layouts["lg"].length * 1,
+      y: Infinity,
+      w: 1,
+      h: 1,
+      minW: 1,
+      minH: 1,
+    };
+    const lgLayouts = [...layouts["lg"], newItem];
+    setLayouts((prev) => ({ ...prev, lg: lgLayouts }));
+    setNewCounter(newCounter + 1);
+  };
 
 	// on triggered, remove specified box from grid
 	const removeItem = (i: string) => {
@@ -147,8 +144,6 @@ const WidgetView: FC<any> = () => {
 		const uuid = parseInt(i);
 
 		if (uuid % 2 === 0) {
-			console.log(`Item ${uuid}`);
-			console.log(el);
 			return (
 				<StyledWidget className='react-grid-item' key={i} data-grid={el}>
 					<div className='widget-top-row'>
@@ -162,17 +157,15 @@ const WidgetView: FC<any> = () => {
 							}}
 							onClick={() => removeItem(i)}
 						>
-							<GearIcon />
+							x
 						</div>	
 					</div>
 				</StyledWidget>
 			)
 		} else {
-			console.log(`Item ${uuid}`);
-			console.log(el);
 			return (
 				<StyledWidgetFC
-					className='react-grid-item'
+					// className='react-grid-item'
 					key={i}
 					item={el}
 					removeItem={removeItem}
@@ -189,6 +182,7 @@ const WidgetView: FC<any> = () => {
 	}
 
 	const onBreakpointChange = (newBreakpoint: string, newCols: number) => {
+		console.log(`Breakpoint changed: ${newBreakpoint}`)
 		setCurrBreakpoint(newBreakpoint);
 		setColsCount(newCols);
 	}
