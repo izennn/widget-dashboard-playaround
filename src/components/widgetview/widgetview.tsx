@@ -11,6 +11,7 @@ import StyledWidgetFC from './components/styled-widget-fc';
 import { Button, Header } from 'semantic-ui-react';
 // images
 import GearIcon from './image/gear-icon';
+import { v4 as uuidv4 } from 'uuid';
 
 const ResponsiveReactGridLayout = WidthProvider(Responsive);
 
@@ -86,11 +87,10 @@ const TopBar = (props: TopBarInterface) => {
 // Functional component for dashboard carrying a ResponsiveGridLayout
 const WidgetView: FC<any> = () => {
 	const [ layouts, setLayouts ] = useState<Layouts>(mockLayouts);
-	const [ newCounter, setNewCounter ] = useState(0);
 
 	const [ windowWidth, setWindowWidth ] = useState<number>(window.innerWidth);
 	const [ colsCount, setColsCount ] = useState(0);
-	const [ currBreakpoint, setCurrBreakpoint ] = useState<string | undefined>(undefined);
+	const [ currBreakpoint, setCurrBreakpoint ] = useState<string>('lg');
 
 	// set windowWidth variable value when window resizes (only needed for Alex's playground)
 	useEffect(() => {
@@ -115,25 +115,24 @@ const WidgetView: FC<any> = () => {
 	const addItem = () => {
     // new item must have unique key
     let newItem = {
-      i: `${newCounter}`,
-      x: layouts["lg"].length * 1,
+      i: uuidv4(),
+      x: layouts[currBreakpoint].length * 1,
       y: Infinity,
       w: 1,
       h: 1,
       minW: 1,
       minH: 1,
     };
-    const lgLayouts = [...layouts["lg"], newItem];
-    setLayouts((prev) => ({ ...prev, lg: lgLayouts }));
-    setNewCounter(newCounter + 1);
+    const lgLayouts = [...layouts[currBreakpoint], newItem];
+    setLayouts((prev) => ({ ...prev, [currBreakpoint]: lgLayouts }));
   };
 
 	// on triggered, remove specified box from grid
 	const removeItem = (i: string) => {
-		const newLayout = _.reject(layouts['lg'], {i: i});
+		const newLayout = _.reject(layouts[currBreakpoint], {i: i});
 		const newLayouts = {
 			...layouts,
-			lg: newLayout
+			[currBreakpoint]: newLayout
 		}
 		setLayouts(newLayouts);
 	}
@@ -222,8 +221,19 @@ const WidgetView: FC<any> = () => {
 					overflow: 'auto'
 				}}
 			>
-				{layouts['lg'].map((el) => {
-					return renderItem(el)
+				{layouts[currBreakpoint].map((el) => {
+					// return renderItem(el)
+					return (
+						<StyledWidgetFC
+							// className='react-grid-item'
+							key={el.i}
+							item={el}
+							removeItem={removeItem}
+							style={{
+								border: '1px dotted black'
+							}}
+						/>
+					)
 				})}
 			</ResponsiveReactGridLayout>
 		</div>
